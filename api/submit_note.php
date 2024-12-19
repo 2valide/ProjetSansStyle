@@ -8,7 +8,7 @@ $dbname = "root";
 $connector = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
 $connector->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $rawData = file_get_contents('php://input');
     $data = json_decode($rawData, true);
 
@@ -33,7 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
-if ($_SERVER["REQUEST_METHOD"] == "GET") {
+if ($_SERVER["REQUEST_METHOD"] === "GET") {
     $sql = "SELECT * FROM notes";
     $stmt = $connector->prepare($sql);
     $stmt->execute();
@@ -42,7 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     echo json_encode($result);
 }
 
-if ($_SERVER["REQUEST_METHOD"] == "DELETE") {
+if ($_SERVER["REQUEST_METHOD"] === "DELETE") {
     $rawData = file_get_contents('php://input');
     $data = json_decode($rawData, true);
 
@@ -63,7 +63,7 @@ if ($_SERVER["REQUEST_METHOD"] == "DELETE") {
     }
 }
 
-if ($_SERVER["REQUEST_METHOD"] == "UPDATE") {
+if ($_SERVER["REQUEST_METHOD"] === "UPDATE") {
     $rawData = file_get_contents('php://input');
     $data = json_decode($rawData, true);
 

@@ -40,7 +40,7 @@ function fetchNotes() {
             return response.text();
         })
         .then(text => {
-            const jsonMatch = text.match(/\[.*\]/);
+            const jsonMatch = text.match(/\[.*]/);
             return JSON.parse(jsonMatch[0]);
         });
 }
