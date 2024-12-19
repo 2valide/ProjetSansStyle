@@ -9,6 +9,8 @@ services:
     volumes:
       - ./public:/var/www/html/public
 #      - ./api:/var/www/html/api
+    environment:
+      - APACHE_DOCUMENT_ROOT=/var/www/html/public
     depends_on:
       - db
 
