@@ -1,5 +1,5 @@
 // Sélection des éléments
-const openFormBtn = document.getElementById('addNoteButton');  // Corrigé pour correspondre à l'ID du bouton dans le HTML
+const openFormBtn = document.getElementById('addNoteButton');
 const noteForm = document.getElementById('formContainer');
 const saveNoteBtn = document.getElementById('saveNoteBtn');
 const notesContainer = document.getElementById('notesContainer');
@@ -9,8 +9,10 @@ openFormBtn.addEventListener('click', () => {
     noteForm.style.display = 'flex';  // Affiche le formulaire
 });
 
-// Fonction pour enregistrer une note
-saveNoteBtn.addEventListener('click', () => {
+// Fonction pour enregistrer une note avec prévention de la soumission de formulaire
+saveNoteBtn.addEventListener('click', (e) => {
+    e.preventDefault();  // Empêche la soumission du formulaire (évite le rechargement de la page)
+
     const title = document.getElementById('noteTitle').value;
     const text = document.getElementById('noteText').value;
 
@@ -18,6 +20,8 @@ saveNoteBtn.addEventListener('click', () => {
         addNote(title, text);  // Ajoute la note au conteneur
         noteForm.style.display = 'none';  // Cache le formulaire après ajout
         clearForm();  // Réinitialise le formulaire
+
+        // Vous pouvez aussi envoyer la note à un serveur ici via AJAX si nécessaire.
     } else {
         alert('Veuillez remplir le titre et le texte de la note.');  // Alerte si le titre ou le texte sont vides
     }

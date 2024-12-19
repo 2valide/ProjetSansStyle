@@ -11,9 +11,11 @@
     <button class="learn-more" id="addNoteButton">Ajouter une note</button> <!-- Le bouton pour ouvrir le formulaire -->
     <div class="form-container" id="formContainer">
         <h2>Nouvelle note</h2>
-        <input type="text" id="noteTitle" placeholder="Titre de la note">
-        <textarea id="noteText" placeholder="Écrivez votre note ici..."></textarea><br>
-        <button class="learn-more" id="saveNoteBtn">Enregistrer la note</button> <!-- Le bouton pour enregistrer la note -->
+        <form method="post" action="api/createNote.php">
+            <input type="text" name="title" id="noteTitle" placeholder="Titre de la note">
+            <textarea name="content" id="noteText" placeholder="Écrivez votre note ici..."></textarea><br>
+            <button class="learn-more" id="saveNoteBtn">Enregistrer la note</button>
+        </form>
     </div>
     <div id="notesContainer"></div>
 </div>
