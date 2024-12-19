@@ -17,22 +17,20 @@ saveNoteBtn.addEventListener('click', (e) => {
     const text = document.getElementById('noteText').value;
 
     if (title.trim() !== '' && text.trim() !== '') {
-        addNote(title, text);  // Ajoute la note au conteneur
+        postNote(title, text);  // Envoie la note au serveur
         noteForm.style.display = 'none';  // Cache le formulaire après ajout
         clearForm();  // Réinitialise le formulaire
-
-        // Vous pouvez aussi envoyer la note à un serveur ici via AJAX si nécessaire.
     } else {
         alert('Veuillez remplir le titre et le texte de la note.');  // Alerte si le titre ou le texte sont vides
     }
 });
 
 // Ajouter une note au conteneur
-function addNote(title, text) {
+function addNoteToContainer(note) {
     const noteDiv = document.createElement('div');
     noteDiv.classList.add('note');
-    noteDiv.innerHTML = `<h3>${title}</h3><p>${text}</p>`;
-    notesContainer.appendChild(noteDiv);  // Ajoute la note à la page
+    noteDiv.innerHTML = `<h3>${note.title}</h3><p>${note.content}</p><p><small>${note.created_datetime}</small></p>`;
+    notesContainer.appendChild(noteDiv);
 }
 
 // Réinitialiser le formulaire
@@ -48,3 +46,60 @@ window.addEventListener('click', (e) => {
         clearForm();  // Réinitialise le formulaire
     }
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+    fetchNotes().then(notes => {
+        displayNotes(notes);
+    });
+});
+
+function fetchNotes() {
+    return fetch('../api/submit_note.php')
+        .then(response => {
+            return response.text();
+        })
+        .then(text => {
+            const jsonMatch = text.match(/\[.*\]/);
+            return JSON.parse(jsonMatch[0]);
+        });
+}
+
+function displayNotes(notes) {
+    notes.forEach(note => {
+        addNoteToContainer(note);
+    });
+}
+
+function postNote(title, content) {
+    const note = {
+        title: title,
+        content: content,
+        created_datetime: new Date().toISOString()
+    };
+
+    fetch('../api/submit_note.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(note)
+    })
+        .then(response => {
+            return response.text();
+        })
+        .then(text => {
+            console.log('Raw response text:', text);
+            const jsonMatch = text.match(/\{.*\}/);
+            if (!jsonMatch) {
+                throw new Error('Invalid JSON format');
+            }
+            return JSON.parse(jsonMatch[0]);
+        })
+        .then(data => {
+            console.log('Note saved:', data);
+            addNoteToContainer(data);
+        })
+        .catch(error => {
+            console.error('Error saving note:', error);
+        });
+}
