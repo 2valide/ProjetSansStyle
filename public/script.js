@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function fetchNotes() {
-    return fetch('../api/submit_note.php')
+    return fetch('../api/notes.php')
         .then(response => {
             return response.text();
         })
@@ -58,7 +58,7 @@ function postNote(title, content) {
         created_datetime: new Date().toISOString()
     };
 
-    fetch('../api/submit_note.php', {
+    fetch('../api/notes.php', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
