@@ -1,0 +1,138 @@
+/* Styles généraux pour le body et html */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+/* Fond avec motif radial sur toute la page */
+.container {
+    background-color: transparent;
+    background-image: radial-gradient(#000000 1px, #e5e5f7 1px);
+    background-size: 30px 30px;
+    width: 100%;
+    height: 100vh; /* Utilise toute la hauteur de l'écran */
+    position: relative;
+    text-align: center;
+    padding-top: 50px;
+}
+
+/* Styles pour le formulaire en position absolute */
+.form-container {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 400px;
+    background: #fff;
+    padding: 20px;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+    z-index: 10;
+    flex-direction: column;
+}
+
+/* Titres et labels dans le formulaire */
+.form-container h2 {
+    font-size: 24px;
+    margin-bottom: 15px;
+    color: #333;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Styles pour les champs du formulaire */
+.form-container input,
+.form-container textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.form-container input:focus,
+.form-container textarea:focus {
+    border-color: #5c6bc0;
+    outline: none;
+}
+
+/* Bouton pour enregistrer la note */
+button.learn-more {
+    font-weight: 600;
+    color: #382b22;
+    text-transform: uppercase;
+    padding: 1.25em 2em;
+    background: #fff0f0;
+    border: 2px solid #b18597;
+    border-radius: 0.75em;
+    transform-style: preserve-3d;
+    transition: transform 150ms cubic-bezier(0, 0, 0.58, 1), background 150ms cubic-bezier(0, 0, 0.58, 1);
+}
+
+button.learn-more::before {
+    position: absolute;
+    content: '';
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: #f9c4d2;
+    border-radius: inherit;
+    box-shadow: 0 0 0 2px #b18597, 0 0.625em 0 0 #ffe3e2;
+    transform: translate3d(0, 0.75em, -1em);
+    transition: transform 150ms cubic-bezier(0, 0, 0.58, 1), box-shadow 150ms cubic-bezier(0, 0, 0.58, 1);
+}
+
+button.learn-more:hover {
+    background: #ffe9e9;
+    transform: translate(0, 0.25em);
+}
+
+button.learn-more:hover::before {
+    box-shadow: 0 0 0 2px #b18597, 0 0.5em 0 0 #ffe3e2;
+    transform: translate3d(0, 0.5em, -1em);
+}
+
+button.learn-more:active {
+    background: #ffe9e9;
+    transform: translate(0em, 0.75em);
+}
+
+button.learn-more:active::before {
+    box-shadow: 0 0 0 2px #b18597, 0 0 #ffe3e2;
+    transform: translate3d(0, 0, -1em);
+}
+
+/* Styles pour les cartes de notes (post-it) */
+.note {
+    background-color: #fffa75;
+    padding: 20px;
+    margin: 20px auto;
+    width: 200px;
+    height: 200px;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    position: relative;
+    font-size: 18px;
+    color: #333;
+    text-align: left;
+    word-wrap: break-word;
+    display: inline-block;
+}
+
+.note h3 {
+    margin-top: 0;
+    font-size: 20px;
+    color: #d88;
+}
+
+.note p {
+    margin: 0;
+    font-size: 16px;
+    color: #555;
+}
