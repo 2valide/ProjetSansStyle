@@ -113,7 +113,7 @@ button.learn-more:active::before {
     background-color: #fffa75;
     padding: 20px;
     margin: 20px auto;
-    width: 200px;
+    width: 210px;
     height: 200px;
     box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
     border-radius: 10px;
