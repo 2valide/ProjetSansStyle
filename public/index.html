@@ -7,8 +7,11 @@
 </head>
 <body>
 <div class="container">
-    <h1>Bloc-notes en ligne</h1>
-    <button class="learn-more" id="addNoteButton">Ajouter des notes</button> <!-- Le bouton pour ouvrir le formulaire -->
+    <div class="second-container">
+    <div class="header-container">
+        <h1>Bloc-notes en ligne</h1>
+        <button class="learn-more" id="addNoteButton">Ajouter une note</button>
+    </div>
     <div class="form-container" id="formContainer">
         <h2>Nouvelle note</h2>
         <form method="post" action="../api/notes.php">
@@ -19,7 +22,11 @@
             <button class="learn-more" id="saveNoteBtn">Enregistrer la note</button>
         </form>
     </div>
-    <div id="notesContainer"></div>
+
+    <div id="notesContainer" style="display: flex">
+
+    </div>
+</div>
 </div>
 <script src="script.js"></script>
 </body>
