@@ -72,3 +72,5 @@ function postNote(title, content) {
             location.reload();
         });
 }
+
+module.exports = { addNoteToContainer , fetchNotes, postNote };
