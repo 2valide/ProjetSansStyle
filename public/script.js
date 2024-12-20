@@ -24,9 +24,24 @@ saveNoteBtn.addEventListener('click', (e) => {
 function addNoteToContainer(note) {
     const noteDiv = document.createElement('div');
     noteDiv.classList.add('note');
-    noteDiv.innerHTML = `<h3>${note.title}</h3><p>${note.content}</p><p><small>${note.created_datetime}</small></p>`;
+    noteDiv.innerHTML = `
+        <h3>${note.title}</h3>
+        <p>${note.content}</p>
+        <p><small>${note.created_datetime}</small></p>
+        <button class="delete-btn">Supprimer</button>
+        <button class="edit-btn">Modifier</button>
+    `;
+
+    noteDiv.querySelector('.delete-btn').addEventListener('click', () => {
+        deleteNote(note.id);
+    });
+    noteDiv.querySelector('.edit-btn').addEventListener('click', () => {
+        updateNote(note.id, note.title, note.content);
+    });
+
     notesContainer.appendChild(noteDiv);
 }
+
 
 document.addEventListener('DOMContentLoaded', () => {
     fetchNotes().then(notes => {
@@ -71,6 +86,37 @@ function postNote(title, content) {
         .then(() => {
             location.reload();
         });
+}
+
+function deleteNote(id) {
+    fetch('../api/notes.php', {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ id: id })
+    })
+        .then(() => {
+            location.reload();
+        });
+}
+
+function updateNote(id, title, content) {
+    const newTitle = prompt('Modifier le titre:', title);
+    const newContent = prompt('Modifier le contenu:', content);
+
+    if (newTitle !== null && newContent !== null) {
+        fetch('../api/notes.php', {
+            method: 'UPDATE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ id: id, title: newTitle, content: newContent })
+        })
+            .then(() => {
+                location.reload();
+            });
+    }
 }
 
 module.exports = { addNoteToContainer , fetchNotes, postNote };
