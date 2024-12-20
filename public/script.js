@@ -1,50 +1,74 @@
-// Sélection des éléments
 const openFormBtn = document.getElementById('addNoteButton');
 const noteForm = document.getElementById('formContainer');
 const saveNoteBtn = document.getElementById('saveNoteBtn');
 const notesContainer = document.getElementById('notesContainer');
 
-// Ouvrir le formulaire lorsque le bouton "Ajouter une note" est cliqué
 openFormBtn.addEventListener('click', () => {
-    noteForm.style.display = 'flex';  // Affiche le formulaire
+    noteForm.style.display = 'flex';
 });
 
-// Fonction pour enregistrer une note avec prévention de la soumission de formulaire
 saveNoteBtn.addEventListener('click', (e) => {
-    e.preventDefault();  // Empêche la soumission du formulaire (évite le rechargement de la page)
+    e.preventDefault();
 
     const title = document.getElementById('noteTitle').value;
     const text = document.getElementById('noteText').value;
 
     if (title.trim() !== '' && text.trim() !== '') {
-        addNote(title, text);  // Ajoute la note au conteneur
-        noteForm.style.display = 'none';  // Cache le formulaire après ajout
-        clearForm();  // Réinitialise le formulaire
-
-        // Vous pouvez aussi envoyer la note à un serveur ici via AJAX si nécessaire.
+        postNote(title, text);
+        noteForm.style.display = 'none';
     } else {
-        alert('Veuillez remplir le titre et le texte de la note.');  // Alerte si le titre ou le texte sont vides
+        alert('Veuillez remplir le titre et le texte de la note.');
     }
 });
 
-// Ajouter une note au conteneur
-function addNote(title, text) {
+function addNoteToContainer(note) {
     const noteDiv = document.createElement('div');
     noteDiv.classList.add('note');
-    noteDiv.innerHTML = `<h3>${title}</h3><p>${text}</p>`;
-    notesContainer.appendChild(noteDiv);  // Ajoute la note à la page
+    noteDiv.innerHTML = `<h3>${note.title}</h3><p>${note.content}</p><p><small>${note.created_datetime}</small></p>`;
+    notesContainer.appendChild(noteDiv);
 }
 
-// Réinitialiser le formulaire
-function clearForm() {
-    document.getElementById('noteTitle').value = '';
-    document.getElementById('noteText').value = '';
-}
-
-// Fermer le formulaire en cliquant en dehors de celui-ci
-window.addEventListener('click', (e) => {
-    if (e.target === noteForm) {
-        noteForm.style.display = 'none';  // Cache le formulaire
-        clearForm();  // Réinitialise le formulaire
-    }
+document.addEventListener('DOMContentLoaded', () => {
+    fetchNotes().then(notes => {
+        displayNotes(notes);
+    });
 });
+
+function fetchNotes() {
+    return fetch('../api/notes.php')
+        .then(response => {
+            return response.text();
+        })
+        .then(text => {
+            const jsonMatch = text.match(/\[.*]/);
+            return JSON.parse(jsonMatch[0]);
+        });
+}
+
+function displayNotes(notes) {
+    notes.forEach(note => {
+        addNoteToContainer(note);
+    });
+}
+
+function postNote(title, content) {
+    const note = {
+        title: title,
+        content: content,
+        created_datetime: new Date().toISOString()
+    };
+
+    fetch('../api/notes.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(note)
+    })
+        .then(data => {
+            addNoteToContainer(data);
+        })
+        .then(() => {
+            location.reload();
+        });
+}
