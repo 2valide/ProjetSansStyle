@@ -16,6 +16,6 @@ jobs:
       - name: build image
         run: docker build . -t 2valide/projetsansstyle:latest
       - name: push image to docker hub
-        run:
+        run: |
           docker login -u 2valide -p ${{ secrets.DOCKER_HUB_TOKEN }}
           docker push 2valide/projetsansstyle:latest
