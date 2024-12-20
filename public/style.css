@@ -1,4 +1,3 @@
-/* Styles généraux pour le body et html */
 html, body {
     height: 100%;
     margin: 0;
@@ -6,7 +5,6 @@ html, body {
     font-family: Arial, sans-serif;
 }
 
-/* Container principal */
 .container {
     background-color: transparent;
     background-image: radial-gradient(#000000 1px, #e5e5f7 1px);
@@ -16,8 +14,8 @@ html, body {
     text-align: center;
     padding: 20px;
     justify-content: center;
-    position: relative;  /* Ajout pour positionner les éléments enfants */
-    width: 100%;  /* Assure-toi que ce conteneur utilise toute la largeur */
+    position: relative; 
+    width: 100%; 
     max-width: 100%;
 }
 
@@ -33,17 +31,14 @@ html, body {
 
 }
 
-/* Style pour le titre et le bouton pour qu'ils soient en haut */
 h1, #addNoteButton {
     margin-bottom: 20px;
 }
 
-/* Style spécifique pour le titre */
 h1 {
     margin-top: 0;
 }
 
-/* Formulaire positionné au milieu de l'écran */
 .form-container {
     display: none;
     position: absolute;
@@ -78,7 +73,6 @@ h1 {
     box-sizing: border-box;
 }
 
-/* Bouton pour enregistrer la note */
 button.learn-more {
     font-weight: 600;
     color: #382b22;
@@ -125,23 +119,16 @@ button.learn-more:active::before {
     transform: translate3d(0, 0, -1em);
 }
 
-/* Conteneur des notes */
-/* Conteneur des notes */
 .noteContainer {
     display: flex;
-    flex-wrap: wrap;         /* Permet aux notes de passer à la ligne */
-    justify-content: center; /* Centre les notes horizontalement */
-    gap: 20px;               /* Espacement entre les notes */
-    width: 100%;             /* Assure que le conteneur utilise toute la largeur disponible */
-    box-sizing: border-box;  /* Inclut le padding et la bordure dans le calcul de la largeur */
+    flex-wrap: wrap;         
+    justify-content: center;
+    gap: 20px;               
+    width: 100%;            
+    box-sizing: border-box;
     padding: 20px;
 }
 
-
-
-
-
-/* Style des notes façon post-it */
 .note {
     width: 200px;
     height: 200px;
@@ -157,26 +144,22 @@ button.learn-more:active::before {
     word-wrap: break-word;
 }
 
-/* Variante de rotation pour les post-it */
 .note:nth-child(even) {
     transform: rotate(3deg);
 }
 
-/* Titre de la note */
 .note h3 {
     margin: 0 0 10px 0;
     font-size: 1.2em;
     font-weight: bold;
 }
 
-/* Contenu de la note */
 .note p {
     margin: 0;
     font-size: 1em;
     line-height: 1.4;
 }
 
-/* Styles pour les boutons Modifier et Supprimer */
 .note button {
     font-weight: 600;
     color: #fff;

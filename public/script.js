@@ -1,30 +1,27 @@
-// Sélection des éléments
 const openFormBtn = document.getElementById('addNoteButton');
 const noteForm = document.getElementById('formContainer');
 const saveNoteBtn = document.getElementById('saveNoteBtn');
 const notesContainer = document.getElementById('notesContainer');
 
-// Ouvrir le formulaire lorsque le bouton "Ajouter une note" est cliqué
 openFormBtn.addEventListener('click', () => {
     noteForm.style.display = 'flex';
 });
 
-// Fonction pour enregistrer une note
-saveNoteBtn.addEventListener('click', () => {
+saveNoteBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+
     const title = document.getElementById('noteTitle').value;
     const text = document.getElementById('noteText').value;
 
     if (title.trim() !== '' && text.trim() !== '') {
         addNote(title, text);
         noteForm.style.display = 'none';
-        clearForm();
     } else {
         alert('Veuillez remplir le titre et le texte de la note.');
     }
 });
 
-// Ajouter une note au conteneur
-function addNote(title, text) {
+function addNoteToContainer(note) {
     const noteDiv = document.createElement('div');
     noteDiv.classList.add('note');
     noteDiv.innerHTML = `
@@ -34,14 +31,12 @@ function addNote(title, text) {
         <button class="delete-btn">Supprimer</button>
     `;
 
-    // Ajout des écouteurs d'événements pour les boutons
     noteDiv.querySelector('.delete-btn').addEventListener('click', () => noteDiv.remove());
     noteDiv.querySelector('.edit-btn').addEventListener('click', () => editNote(noteDiv, title, text));
 
     notesContainer.appendChild(noteDiv);
 }
 
-// Fonction pour éditer une note
 function editNote(noteDiv, oldTitle, oldText) {
     document.getElementById('noteTitle').value = oldTitle;
     document.getElementById('noteText').value = oldText;
@@ -51,16 +46,49 @@ function editNote(noteDiv, oldTitle, oldText) {
     noteDiv.remove();
 }
 
-// Réinitialiser le formulaire
-function clearForm() {
-    document.getElementById('noteTitle').value = '';
-    document.getElementById('noteText').value = '';
+document.addEventListener('DOMContentLoaded', () => {
+    fetchNotes().then(notes => {
+        displayNotes(notes);
+    });
+});
+
+function fetchNotes() {
+    return fetch('../api/notes.php')
+        .then(response => {
+            return response.text();
+        })
+        .then(text => {
+            const jsonMatch = text.match(/\[.*]/);
+            return JSON.parse(jsonMatch[0]);
+        });
 }
 
-// Fermer le formulaire en cliquant en dehors de celui-ci
-window.addEventListener('click', (e) => {
-    if (e.target === noteForm) {
-        noteForm.style.display = 'none';
-        clearForm();
-    }
-});
+function displayNotes(notes) {
+    notes.forEach(note => {
+        addNoteToContainer(note);
+    });
+}
+
+function postNote(title, content) {
+    const note = {
+        title: title,
+        content: content,
+        created_datetime: new Date().toISOString()
+    };
+
+    fetch('../api/notes.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(note)
+    })
+        .then(data => {
+            addNoteToContainer(data);
+        })
+        .then(() => {
+            location.reload();
+        });
+}
+
+module.exports = { addNoteToContainer , fetchNotes, postNote };
