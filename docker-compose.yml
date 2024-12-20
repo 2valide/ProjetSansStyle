@@ -13,6 +13,8 @@ services:
       - APACHE_DOCUMENT_ROOT=/var/www/html/public
     depends_on:
       - db
+    networks:
+        - networkProjet
 
   db:
     image: mysql:8.0
@@ -28,6 +30,12 @@ services:
     volumes:
       - db_data:/var/lib/mysql
       - ./sql/notes.sql:/docker-entrypoint-initdb.d/notes.sql
+    networks:
+        - networkProjet
+
+networks:
+  networkProjet:
+    driver: bridge
 
 volumes:
   db_data:
